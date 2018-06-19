@@ -1,0 +1,52 @@
+﻿@using WeightLogging.Models;
+@using WeightLogging.Extensions;
+@using PagedList;
+@using PagedList.Mvc;
+@model WeightLogging.Models.weight_list
+
+@{
+    string PageTitle = "Weight List";
+    PagedList.IPagedList<weight_list> weight_list = (PagedList.IPagedList<weight_list>)ViewBag.weight_list;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    @Html.PageTitle(PageTitle)
+    @if (weight_list != null)
+    {
+        @Html.SearchSubTitle(weight_list, Model)
+        <nav aria-label="Page navigation">
+            <ul class="pagination pull-right">
+                @Html.PagedListPager(weight_list, PageNumber => Url.Action("Index",
+                                   new
+                                   {
+                                       PageNumber
+                                   }),
+                                   new PagedListRenderOptions
+                                   {
+                                       LinkToPreviousPageFormat = "Previous",
+                                       LinkToNextPageFormat = "Next",
+                                       LiElementClasses = new[] { "page-item" },
+                                       FunctionToTransformEachPageLink =
+                                           (liTag, aTag) =>
+                                           { aTag.AddCssClass("page-link"); liTag.InnerHtml = aTag.ToString(); return liTag; }
+                                   }
+                               )
+            </ul>
+        </nav>
+
+        @Html.Partial("_List", weight_list);
+    }
+    else
+    {
+        <div>asdfasdf</div>
+
+    }
+</body>
+</html>

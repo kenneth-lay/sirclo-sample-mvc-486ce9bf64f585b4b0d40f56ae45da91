@@ -1,0 +1,27 @@
+﻿@using WeightLogging.Models;
+@using WeightLogging.Extensions;
+@model IEnumerable<weight_list>
+@{
+    Layout = null;
+}
+
+@using (Html.BeginTable())
+{
+    using (Html.BeginTr())
+    {
+        @Html.Th(@Html.DisplayNameFor(model => model.record_date))
+        @Html.Th(@Html.DisplayNameFor(model => model.max_weight))
+        @Html.Th(@Html.DisplayNameFor(model => model.min_weight))
+        @Html.Th(new HtmlString("Variance"))
+    }
+    foreach (var item in Model)
+    {
+        using (Html.BeginTr())
+        {
+            @Html.Td(@Html.Link(item.record_date.ToString("yyyy-MM-dd"), "../WeightList/Details/" + item.record_date.ToString("yyyy-MM-dd")))
+            @Html.Td(new HtmlString(item.max_weight.ToString()))
+            @Html.Td(new HtmlString(item.min_weight.ToString()))
+            @Html.Td(new HtmlString((item.max_weight - item.min_weight).ToString()))
+        }
+    }
+}

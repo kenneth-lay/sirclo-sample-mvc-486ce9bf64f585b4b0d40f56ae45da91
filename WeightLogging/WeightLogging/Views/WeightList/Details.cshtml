@@ -1,0 +1,52 @@
+﻿@using WeightLogging.Models;
+@using WeightLogging.Extensions;
+@model WeightLogging.Models.weight_list
+
+@{
+    string PageTitle = "Weight Record";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    @Html.PageTitle(PageTitle)
+
+    @using (Html.BeginTable())
+    {
+        using (Html.BeginTr())
+        {
+            @Html.Th(@Html.DisplayNameFor(model => model.record_date))
+            @Html.Td(new HtmlString(Model.record_date.ToString("yyyy-MM-dd")))
+        }
+        using (Html.BeginTr())
+        {
+            @Html.Th(@Html.DisplayNameFor(model => model.max_weight))
+            @Html.Td(new HtmlString(Model.max_weight.ToString()))
+        }
+        using (Html.BeginTr())
+        {
+            @Html.Th(@Html.DisplayNameFor(model => model.min_weight))
+            @Html.Td(new HtmlString(Model.min_weight.ToString()))
+        }
+        using (Html.BeginTr())
+        {
+            @Html.Th(new HtmlString("Variance"))
+            @Html.Td(new HtmlString((Model.max_weight - Model.min_weight).ToString()))
+        }
+    }
+
+    @using (Html.BeginRow())
+    {
+        using (Html.BeginColumnFull())
+        {
+            @Html.ActionLink("Edit", "Edit", new { id = Model.record_date.ToString("yyyy-MM-dd") }, new { @class = "btn btn-main" })
+            @Html.ActionLink("Delete", "Delete", new { id = Model.record_date.ToString("yyyy-MM-dd") }, new { @class = "btn btn-warn", @id = "btn-delete" })
+        }
+    }
+</body>
+</html>

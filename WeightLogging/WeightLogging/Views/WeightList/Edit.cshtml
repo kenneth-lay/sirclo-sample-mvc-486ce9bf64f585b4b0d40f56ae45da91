@@ -1,0 +1,58 @@
+﻿@using WeightLogging.Models;
+@using WeightLogging.Extensions;
+@model WeightLogging.Models.weight_list
+
+@{
+    Layout = null;
+    string PageTitle = "Edit Weight Record";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    @using (Html.BeginForm())
+    {
+        @Html.PageTitle(PageTitle);
+        @Html.AntiForgeryToken()
+        using (Html.BeginRow())
+        {
+            @Html.LabelFor(model => model.record_date);
+
+            using (Html.BeginInputColumnFull())
+            {
+                @Html.TextBoxFor(model => model.record_date, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                @Html.RedValidationMessageFor(model => model.record_date);
+                @Html.HiddenFor(model => model.weight_list_id);
+            }
+
+            @Html.LabelFor(model => model.max_weight);
+
+            using (Html.BeginInputColumnFull())
+            {
+                @Html.TextBoxFor(model => model.max_weight);
+                @Html.RedValidationMessageFor(model => model.max_weight);
+            }
+
+            @Html.LabelFor(model => model.min_weight);
+
+            using (Html.BeginInputColumnFull())
+            {
+                @Html.TextBoxFor(model => model.min_weight);
+                @Html.RedValidationMessageFor(model => model.min_weight);
+            }
+            using (Html.BeginRow())
+            {
+                using (Html.BeginColumnFull())
+                {
+                    @Html.ButtonMain("Save");
+                }
+            }
+        }
+    }
+</body>
+</html>
