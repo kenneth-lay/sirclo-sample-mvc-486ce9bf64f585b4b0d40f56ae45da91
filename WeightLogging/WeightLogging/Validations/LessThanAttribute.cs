@@ -24,6 +24,10 @@ public sealed class LessThanAttribute : ValidationAttribute
     public override bool IsValid(object value)
     {
         string maxWeightString = HttpContext.Current.Request[maxWeightProperty];
+        if (string.IsNullOrEmpty(maxWeightString) || value == null || string.IsNullOrEmpty(value.ToString()))
+        {
+            return true;
+        }
         int maxWeight = int.Parse(maxWeightString);
 
         return (maxWeight >= int.Parse(value.ToString()));

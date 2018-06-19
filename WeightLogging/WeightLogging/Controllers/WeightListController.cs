@@ -81,12 +81,24 @@ namespace WeightLogging.Controllers
             return View(weight_list_original);
         }
 
-        public static weight_list GetWeightRecord(string dateString)
+        // GET: WeightList/Delete/2018-06-19
+        public ActionResult Delete(string id)
+        {
+            var weight_list_original = GetWeightRecord(id, db);
+
+            db.weight_list.Remove(weight_list_original);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        public static weight_list GetWeightRecord(string dateString, weightlogEntities db = null)
         {
             DateTime record_date = DateTime.Parse(dateString);
 
-            // string[] date = dateString.Split('-');
-            weightlogEntities db = new weightlogEntities();
+            if (db == null)
+            {
+                db = new weightlogEntities();
+            }
             var weight_list = db.weight_list.AsQueryable().ToList()
                                 .Where(wl => wl.record_date == record_date);
 
